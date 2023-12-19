@@ -2,15 +2,15 @@
 ## Interface-Classic: 11404
 ## Interface-BCC: 20504
 ## Interface-Wrath: 30403
-## Title: Bird Facts
+## Title: Animal Facts
 ## Author: Hylly/Hogcrankr@Faerlina
 ## eMail: 
 ## URL: https://discord.gg/AqGTbYMgtK
-## Notes: Spits out a random bird fact
-## Version: 1.7.4
+## Notes: Spits out a random animal fact
+## Version: 0.0.1
 ## X-Curse-Project-ID: 817701
 ## OptionalDeps: Ace3
-## SavedVariables: BirdFactsDB
+## SavedVariables: AnimalFactsDB
 
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
@@ -23,5 +23,5 @@ Libs\AceConfig-3.0\AceConfig-3.0.xml
 Libs\AceTimer-3.0\AceTimer-3.0.xml
 Libs\AceComm-3.0\AceComm-3.0.xml
 
+AnimalFacts.lua
 BirdFacts.lua
-Facts.lua
