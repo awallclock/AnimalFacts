@@ -242,8 +242,7 @@ function AF:GetFactAll()
 end
 
 function AF:GetFactSpecific(animal)
-    -- get which table the fact needs to be pullled on based on if the savedVariable is trueFacts
-    local animal = animal
+    -- get which table the fact needs to be pulled on based on if the savedVariable is trueFacts
     local randomFact = #aFacts[animal][math.random(1, #aFacts[animal])]
     return randomFact
 end
@@ -277,7 +276,7 @@ end
 -- slash commands and their outputs
 function AF:SlashCommand(msg)
     local msg = string.lower(msg)
-    local out = AF:GetFact()
+    local out = AF:GetFactAll()
 
     AF:BroadcastLead(self.playerName)
 
@@ -291,6 +290,15 @@ function AF:SlashCommand(msg)
         ["bg"] = "INSTANCE_CHAT",
         ["i"] = "INSTANCE_CHAT",
         ["o"] = "OFFICER"
+    }
+
+    local animals = {
+        bird,
+        cat,
+        dog,
+        frog,
+        generic,
+        racoon,
     }
 
     if (msg == "r") then
@@ -308,9 +316,11 @@ function AF:SlashCommand(msg)
     elseif (msg == "opt" or msg == "options") then
         InterfaceOptionsFrame_OpenToCategory(self.optionsFrame)
         InterfaceOptionsFrame_OpenToCategory(self.optionsFrame)
-    elseif (msg == "auto") then
+    elseif (msg == "auto") then --this isn't a command a user would type
         SendChatMessage(out, self.db.profile.defaultAutoChannel)
-    elseif (msg ~= "" or msg == "flags") then
+    elseif (msg == animals[msg]) then
+        SendChatMessage(AF:GetFactSpecific(msg), self.db.profile.defaultChannel)
+    elseif (msg ~= "" or msg == "help") then
         AF:factError()
     else
         SendChatMessage(out, self.db.profile.defaultChannel)
