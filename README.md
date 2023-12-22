@@ -4,30 +4,30 @@ A simple dumb addon that allows you to say / yell / raid warning a random animal
 
 Main command:
 
-/bf <command>
+/af <command> OR /animalfact <command>
 
 Command Options:
 
-s: Sends a bird fact to the /say channel. Sets default channel to /say
+s: Sends an animal fact to the /say channel.
 
-p: Sends a bird fact to the /party channel. Sets default channel to /party
+p: Sends an animal fact to the /party channel.
 
-ra: Sends a bird fact to the /raid channel. Sets default channel to /raid
+ra: Sends an animal fact to the /raid channel.
 
-rw: Sends a bird fact to the /raidwarning channel. Sets default channel to /raidwarning
+rw: Sends an animal fact to the /raidwarning channel.
 
-g: Sends a bird fact to the /guild channel. Sets default channel to /guild
+g: Sends an animal to the /guild channel.
 
-i or bg: Sends a bird fact to /instance or /bg channel.
+i or bg: Sends an animal fact to /instance or /bg channel.
 
-w or t whispers a bird fact your current target
-r whispers a bird fact to your last reply. Or you can start a new whisper and type /bf r to send them a bird fact
+w or t whispers an animal fact to your current target
+r whispers an animal fact to your last reply. Or you can start a new whisper and type /af r to send them an animal fact
 
-You can also use the numbers 1 thru 5 to send a bird fact to global channels (1 being General, 2 being Trade, 3 being World Defense, 4 and 5 being any extra channels)
+You can also use the numbers 1 through 5 to send a bird fact to global channels (Depends on the order of your channels)
 
 Example usage:
 
-/bf p: Birds have wings!
+/af p: Birds have wings!
 
 Have a fact you'd like to add? Fill out this form! https://forms.gle/JqiT1s7NZo4ucjy78
 

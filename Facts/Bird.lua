@@ -1,6 +1,6 @@
-local _, bFacts = ...
+local _, aFacts = ...
 
-bFacts.fact = {
+aFacts.bird = {
         'The hummingbird can have a heartbeat that measures up to 1260 beats per minute when it\'s in full flight',
         'Most birds do not hunt for prey and therefore do not need teeth',
         'Birds that eat insects, like worms and ants, and small animals use their beaks to grab and swallow their meal.',
@@ -122,55 +122,6 @@ bFacts.fact = {
         'Ostriches are different than all the other bird species in that they do have a complete separation of feces and urine, but they still don\'t have a bladder like most mammals.',
         'A bird\'s lungs take up much more space in their bodies than a human\'s does. For example, a human\'s lungs makes up one twentieth of their body while a bird\'s take up one fifth',
         'Alabama\'s state bird is the Yellowhammer (also known as Northern Flicker)',
-        --[['Alaska\'s state bird is the Willow Ptarmigan',
-        'Arizona\'s state bird is the Cactus Wren',
-        'Arkansas\'s state bird is the Mockingbird',
-        'California\'s state bird is the California Quail',
-        'Colorado\'s state bird is the Lark Bunting',
-        'Connecticut\'s state bird is the American Robin',
-        'Delaware\'s state bird is the Blue Hen Chicken',
-        'Florida\'s state bird is the Mockingbird',
-        'Georgia\'s state bird is the Brown Thrasher',
-        'Hawaii\'s state bird is the Nene (Hawaiian Goose)',
-        'Idaho\'s state bird is the Mountain Bluebird',
-        'Illinois\'s state bird is the Cardinal',
-        'Indiana\'s state bird is the Cardinal',
-        'Iowa\'s state bird is the Eastern Goldfinch',
-        'Kansas\'s state bird is the Western Meadowlark',
-        'Kentucky\'s state bird is the Kentucky Warbler',
-        'Louisiana\'s state bird is the Eastern Brown Pelican',
-        'Maine\'s state bird is the Black-capped Chickadee',
-        'Maryland\'s state bird is the Baltimore Oriole',
-        'Massachusetts\'s state bird is the Black-capped Chickadee',
-        'Michigan\'s state bird is the American Robin',
-        'Minnesota\'s state bird is the Common Loon',
-        'Mississippi\'s state bird is the Mockingbird',
-        'Missouri\'s state bird is the Eastern Bluebird',
-        'Montana\'s state bird is the Western Meadowlark',
-        'Nebraska\'s state bird is the Western Meadowlark',
-        'Nevada\'s state bird is the Mountain Bluebird',
-        'New Hampshire\'s state bird is the Purple Finch',
-        'New Jersey\'s state bird is the Eastern Goldfinch',
-        'New Mexico\'s state bird is the Roadrunner',
-        'New York\'s state bird is the Eastern Bluebird',
-        'North Carolina\'s state bird is the Cardinal',
-        'North Dakota\'s state bird is the Western Meadowlark',
-        'Ohio\'s state bird is the Cardinal',
-        'Oklahoma\'s state bird is the Scissor-tailed Flycatcher',
-        'Oregon\'s state bird is the Western Meadowlark',
-        'Pennsylvania\'s state bird is the Ruffed Grouse',
-        'Rhode Island\'s state bird is the Rhode Island Red',
-        'South Carolina\'s state bird is the Carolina Wren',
-        'South Dakota\'s state bird is the Ring-necked Pheasant',
-        'Tennessee\'s state bird is the Mockingbird',
-        'Texas\'s state bird is the Mockingbird',
-        'Utah\'s state bird is the California Gull',
-        'Vermont\'s state bird is the Hermit Thrush',
-        'Virginia\'s state bird is the Cardinal',
-        'Washington\'s state bird is the Willow Goldfinch',
-        'West Virginia\'s state bird is the Cardinal',
-        'Wisconsin\'s state bird is the American Robin',
-        'Wyoming\'s state bird is the Western Meadowlark',]] --
         'Contrary to their portrayal in cartoons, roadrunners are not nearly as fast as coyotes. That said, they\'re pretty fast for birds. The land speed of a roadrunner is typically around 15 mph, though the bird can move faster in short bursts.',
         'There are 2 types of roadrunners: Greater (2ft, black/brown/white feathers, shaggy crest) & Lesser (smaller, lighter tan). Both have long tail feathers for balance.',
         'Roadrunners are omnivores that eat ground prey, including rattlesnakes. They primarily consume scorpions, frogs, reptiles, small mammals, birds, and eggs. If a pair wants to eat a rattlesnake, they work together to peck its head until it dies.',
@@ -236,25 +187,4 @@ bFacts.fact = {
         'Bird claws are well adapted for daily activities. Birds that climb tree trunks, for example, have claws that are more curved compared with those of non-climbing species.',
         'The thermoregulation system of birds is very different from that of mammals. In mammals, the digestion of food produces heat and keeps their temperature around 98°F. Birds, however, need to shiver their muscles to maintain 106°F.',
         'Birds have large deposits of white fat in their bodies, mostly concentrated in the chest. White fat fuels flight and provides birds with the energy they need to shiver their muscles to keep warm.'
-}
-
-bFacts.fake = {
-        'The alkonost, the sirin, the caladrius, the roc and the phoenix are all five mythical birds from legend and folklore. Each were attributed their own magical qualities and roles by various human societies in history',
-        'In Russian legends, the alkonost was a creature with the head of a woman and the body of a bird. It could sing the most enchanting songs. Those who heard its song let go of everything they had ever known, desiring nothing more.',
-        'Before Christian influence, the alkonost was believed to live on the magical island of Buyan. Similar to a bird of paradise in appearance, it was considered to be a wind spirit, able to summon up storms.',
-        'In Russian legends, sirins had the top half of a woman, an owl-like body and were often depicted wearing a crown or halo.  They were often associated with the alkonost, but believed to have their origins in Greek myths concerning sirens.',
-        'In Roman mythology, the caladrius was a bird with snow-white plumage that lived in the house of the king.  According to tradition, it had the power to absorb disease from a sick person, then flies away, curing the sick person',
-        'In the mythology of the East, Middle East and Arabic countries, the Roc was a legendary gargantuan bird of prey.',
-        'The phoenix was a mythical bird similar to — but not the same as — the Firebird in Slavic folklore, and whose counterpart is found in many other parts of the world. According to some myths it lived in 500 year cycles.',
-        'Galarian Zapdos is the only known Pokémon capable of learning the move Thunderous Kick.',
-        'Pidgeotto, an evolved form of the Pidgey. It is armed with sharp claws and dives from the sky to capture its prey. Unlike the more gentle Pidgey, Pidgeotto can be dangerous. Approach with extreme caution.',
-        'Despite his imposing stature, Big Bird has a childlike personality. He is intensely curious about the world around him, likes being included in activities, and values his friends.',
-        'Big Bird is a six-year-old walking, talking yellow bird with long orange legs, standing 8 feet 2 inches (2.49 metres) tall, who resides in a nest at 123 1/2 Sesame Street.',
-        'The sea lion was the first Guinness animal advertisement Gilroy drew, which led to others featuring bears, kangaroos, ostriches and pelicans. But the toucan, which first appeared in 1935, prevailed.',
-        'Toucan Sam is one of the cereal world\'s longest-serving mascots, serving as the face (and nose) of Froot Loops since 1963',
-        'If you look closely at Toucan Sam\'s beak, you\'ll notice that there are actually three stripes on it: pink, red, and yellow-orange. The reason for these colors is no accident: They were among the original colors of the cereal!',
-        'Famous birds in cartoons, comics, and films include Big Bird in Sesame Street, Buzz Buzzard in Woody Woodpecker, Disney\'s Darkwing Duck, Footloops cereal\'s Toucan Sam, Woodstock in the Peanuts comic strip, Woody Woodpecker, and Iago in Aladdin.'
-
-
-
 }

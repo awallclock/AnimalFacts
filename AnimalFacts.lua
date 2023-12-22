@@ -1,4 +1,4 @@
-local addOnName, bFacts = ...
+local addOnName, aFacts = ...
 
 -- loading ace3
 local AF = LibStub("AceAddon-3.0"):NewAddon("Bird Facts", "AceConsole-3.0", "AceTimer-3.0", "AceComm-3.0",
@@ -137,7 +137,13 @@ function AF:OnInitialize()
             factTimer = "1",
             defaultAutoChannel = "PARTY",
             leader = "",
-            pleader = ""
+            pleader = "",
+            facts = {
+                bird = true,
+                cat = true,
+                dog = true,
+                racoon = true
+            },
         }
     }
     SLASH_AF1 = "/af"
@@ -217,23 +223,29 @@ function AF:IsLeaderInGroup()
     end
 end
 
-function AF:GetFact()
-    local rf = self.db.profile.realFake
-    local out = ""
-    if (rf == "REAL") then
-        out = bFacts.fact[math.random(1, #bFacts.fact)]
-    elseif (rf == "FAKE") then
-        out = bFacts.fake[math.random(1, #bFacts.fake)]
-    elseif (rf == "BOTH") then
-        local bothFactsLength = #bFacts.fact + #bFacts.fake
-        local num = math.random(1, bothFactsLength)
-        if (num < #bFacts.fact) then
-            out = bFacts.fact[math.random(1, #bFacts.fact)]
-        elseif (num > #bFacts.fact) then
-            out = bFacts.fake[math.random(1, #bFacts.fake)]
+function AF:GetFactAll()
+    -- get the database facts that are marked true from self.db.profile.defaults.facts
+    -- pick a random one from that list
+    -- pick a random fact from the randomly picked table
+    -- hopefully....
+    local trueFacts = {}
+
+    for key, value in pairs(self.db.profile.defaults.facts) do
+        if value then
+            table.insert(trueFacts, key)
         end
     end
-    return out
+
+    local randomTable = trueFacts[math.random(1, #trueFacts)]
+    local randomFact = randomTable(math.random(1, #randomTable))
+    return randomFact
+end
+
+function AF:GetFactSpecific(animal)
+    -- get which table the fact needs to be pullled on based on if the savedVariable is trueFacts
+    local animal = animal
+    local randomFact = #aFacts[animal][math.random(1, #aFacts[animal])]
+    return randomFact
 end
 
 function AF:OnCommReceived(prefix, message, distribution, sender)
@@ -280,7 +292,6 @@ function AF:SlashCommand(msg)
         ["i"] = "INSTANCE_CHAT",
         ["o"] = "OFFICER"
     }
-
 
     if (msg == "r") then
         SendChatMessage(out, "WHISPER", nil, ChatFrame1EditBox:GetAttribute("tellTarget"))
