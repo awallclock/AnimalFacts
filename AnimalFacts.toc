@@ -2,10 +2,11 @@
 ## Interface-Classic: 11404
 ## Interface-BCC: 20504
 ## Interface-Wrath: 30403
-## Title: Animal Facts
+## Title: AnimalFacts
 ## Author: Hylly/Hogcrankr@Faerlina
 ## eMail: 
 ## URL: https://discord.gg/AqGTbYMgtK
+## IconTexture: Interface\Addons\AnimalFacts\Media\Icon64
 ## Notes: Spits out a random animal fact
 ## Version: 0.0.1
 ## X-Curse-Project-ID: 817701
@@ -29,4 +30,4 @@ Facts\Cat.lua
 Facts\Dog.lua
 Facts\Frog.lua
 Facts\Generic.lua
-Facts\Racoon.lua
+Facts\Raccoon.lua
