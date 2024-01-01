@@ -122,7 +122,8 @@ function AF:BuildOptionsPanel()
                     autoChannel = {
                         type = "select",
                         name = "Auto-Fact channel",
-                        desc = "The output channel for the Auto-Fact timer",
+                        desc =
+                        "The output channel for the Auto-Fact timer. |cF0FF0000NOTE:|r Say and Yell ONLY work while inside an instance",
                         order = 2.3,
                         values = {
                             ["SAY"] = "Say",
@@ -151,7 +152,7 @@ function AF:BuildOptionsPanel()
                     },
                     genericToggle = {
                         type = "toggle",
-                        name = "Generic",
+                        name = "Generic (" .. #aFacts.generic .. " facts)",
                         order = 3.1,
                         desc = "Has a generic list of facts for many different types of animals",
                         get = function()
@@ -163,7 +164,7 @@ function AF:BuildOptionsPanel()
                     },
                     catToggle = {
                         type = "toggle",
-                        name = "Cat",
+                        name = "Cat (" .. #aFacts.cat .. " facts)",
                         order = 3.2,
                         desc = "Turns off cat facts from the overall /af command",
                         get = function()
@@ -175,7 +176,7 @@ function AF:BuildOptionsPanel()
                     },
                     dogToggle = {
                         type = "toggle",
-                        name = "Dog",
+                        name = "Dog (" .. #aFacts.dog .. " facts)",
                         order = 3.3,
                         desc = "Turns off dog facts from the overall /af command",
                         get = function()
@@ -187,7 +188,7 @@ function AF:BuildOptionsPanel()
                     },
                     birdToggle = {
                         type = "toggle",
-                        name = "Bird",
+                        name = "Bird (" .. #aFacts.bird .. " facts)",
                         order = 3.4,
                         desc = "Turns off bird facts from the overall /af command",
                         get = function()
@@ -199,7 +200,7 @@ function AF:BuildOptionsPanel()
                     },
                     frogToggle = {
                         type = "toggle",
-                        name = "Frog",
+                        name = "Frog (" .. #aFacts.frog .. " facts)",
                         order = 3.5,
                         desc = "Turns off frog facts from the overall /af command",
                         get = function()
@@ -211,7 +212,7 @@ function AF:BuildOptionsPanel()
                     },
                     raccoonToggle = {
                         type = "toggle",
-                        name = "Raccoon",
+                        name = "Raccoon (" .. #aFacts.raccoon .. " facts)",
                         order = 3.6,
                         desc = "Turns off raccoon facts from the overall /af command",
                         get = function()
@@ -230,11 +231,24 @@ function AF:BuildOptionsPanel()
                 args = {
                     infoText = {
                         type = "description",
-                        name = "A simple dumb addon that allows you to say / yell / raid warning a random animal fact\n" ..
-                            "Main command:\n" ..
-                            "<b>/af frog</b>\n" ..
-                            "/af cat"
-
+                        fontSize = "medium",
+                        name =
+                            "A simple dumb addon that allows you to say / yell / raid warning a random animal fact\n" ..
+                            "For help or to submit a fact: https://discord.gg/AqGTbYMgtK\n\n" ..
+                            "How to use:\n" ..
+                            "|cFFF5A242/af|r |cFF42BEF5<command>|r  OR  |cFFF5A242/animalfact|r |cFF42BEF5<command>|r\n\n" ..
+                            "List of commands:\n" ..
+                            "|cFF42BEF5s|r: Sends fact to the /say channel.\n\n" ..
+                            "|cFF42BEF5p|r: Sends fact to the /party channel.\n\n" ..
+                            "|cFF42BEF5ra|r: Sends fact to the /raid channel.\n\n" ..
+                            "|cFF42BEF5rw|r: Sends fact to the /raidwarning channel.\n\n" ..
+                            "|cFF42BEF5g|r: Sends fact to the /guild channel.\n\n" ..
+                            "|cFF42BEF5i|r or |cFF42BEF5bg|r: Sends an animal fact to /instance or /bg channel.\n\n" ..
+                            "|cFF42BEF5w|r or |cFF42BEF5t|r: Whispers an animal fact to your current target\n\n" ..
+                            "|cFF42BEF5r|r: Whispers an animal fact to your last reply. Or you can start a new whisper and type '|cFFF5A242/af|r |cFF42BEF5r|r' to send them a fact\n\n" ..
+                            "|cFF42BEF51-5|r: Use the numbers 1 through 5 to send a bird fact to global channels ('|cFFF5A242/af|r |cFF42BEF51|r' for example)\n\n" ..
+                            "You can also use '|cFFF5A242/af|r |cFF42BEF5<animal>|r to send facts about that animal to the default channel.\n" ..
+                            "Animal choices are: |cFF42BEF5cat, dog, frog, bird, raccoon, generic|r"
                     },
                 },
             },
@@ -401,7 +415,6 @@ end
 function AF:SlashCommand(msg)
     local msg = string.lower(msg)
     local out = AF:GetFactAll()
-    AF:Print(out)
     AF:BroadcastLead(self.playerName)
 
     local table = {
@@ -452,16 +465,17 @@ end
 
 -- error message
 function AF:factError()
-    AF:Print("\'/af s\' to send a fact to /say")
-    AF:Print("\'/af p\' to send a fact to /party")
-    AF:Print("\'/af g\' to send a fact to /guild")
-    AF:Print("\'/af ra\' to send a fact to /raid")
-    AF:Print("\'/af rw\' to send a fact to /raidwarning")
-    AF:Print("\'/af i\' to send a fact to /instance")
-    AF:Print("\'/af y\' to send a fact to /yell")
-    AF:Print("\'/af r\' to send a fact to the last person whispered")
-    AF:Print("\'/af t\' to send a fact to your target")
-    AF:Print("\'/af <1-5>\' to send a fact to general channels")
+    AF:Print("\'/af s\' sends a fact to /say")
+    AF:Print("\'/af p\' sends a fact to /party")
+    AF:Print("\'/af g\' sends a fact to /guild")
+    AF:Print("\'/af ra\' sends a fact to /raid")
+    AF:Print("\'/af rw\' sends a fact to /raidwarning")
+    AF:Print("\'/af i\' sends a fact to /instance")
+    AF:Print("\'/af y\' sends a fact to /yell")
+    AF:Print("\'/af r\' sends a fact to the last person whispered")
+    AF:Print("\'/af t\' sends a fact to your target")
+    AF:Print("\'/af <1-5>\' sends a fact to global channels")
+    AF:Print("\'/af <animal>\' sends a specific animal fact ")
 end
 
 function AF:TimerFeedback()

@@ -151,7 +151,7 @@ aFacts.bird = {
         'Swallows can cover enormous distances during daylight migration - up to 200 miles a day.',
         'The jay bird stashes away about 5000 acorns every season in different hiding places. It can remember all the locations, but often it doesn\'t need to eat all the acorns, leaving them to grow into oak trees.',
         'Robins love singing so much, they do it all year round. They are normally the first to start the dawn chorus, and the last ones to stop at night.',
-        'During winter, blackbird couples split up, but as soon as breeding season arrives, the pair up again, often with the same partner as before. Aw!',
+        'During winter, blackbird couples split up, but as soon as breeding season arrives, they pair up again, often with the same partner as before. Aw!',
         'Coal tit birds often purposefully lost battles of superiority over food, so they can hide it for later. They build a winter store of peanuts and sunflower seeds.',
         'Dunnock birds have one main partner for life, but they also have many other mates on the side. Females are just as likely to have affairs as males.',
         'During late summer and autumn, birds moult. Blackbirds are very embarrassed by this, and hide themselves away until their new feathers grow, leading people to think that the birds have disappeared.',

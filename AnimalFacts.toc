@@ -1,5 +1,5 @@
 ## Interface: 100200
-## Interface-Classic: 11404
+## Interface-Classic: 11500
 ## Interface-BCC: 20504
 ## Interface-Wrath: 30403
 ## Title: AnimalFacts
@@ -8,8 +8,9 @@
 ## URL: https://discord.gg/AqGTbYMgtK
 ## IconTexture: Interface\Addons\AnimalFacts\Media\Icon64
 ## Notes: Spits out a random animal fact
-## Version: 0.0.1
+## Version: 1.0.0
 ## X-Curse-Project-ID: 817701
+## X-Wago-ID: x61zPEK1
 ## OptionalDeps: Ace3
 ## SavedVariables: AnimalFactsDB
 
