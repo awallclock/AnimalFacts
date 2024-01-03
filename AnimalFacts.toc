@@ -9,7 +9,7 @@
 ## IconTexture: Interface\Addons\AnimalFacts\Media\Icon64
 ## Notes: Spits out a random animal fact
 ## Version: 1.1.0
-## X-Curse-Project-ID: 817701
+## X-Curse-Project-ID: 955402
 ## X-Wago-ID: x61zPEK1
 ## OptionalDeps: Ace3
 ## SavedVariables: AnimalFactsDB
