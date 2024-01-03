@@ -222,6 +222,18 @@ function AF:BuildOptionsPanel()
                             self.db.profile.facts.raccoon = value
                         end,
                     },
+                    ratToggle = {
+                        type = "toggle",
+                        name = "Rat (" .. #aFacts.rat .. " facts)",
+                        order = 3.7,
+                        desc = "Turns off rat facts from the overall /af command",
+                        get = function()
+                            return self.db.profile.facts.rat
+                        end,
+                        set = function(_, value)
+                            self.db.profile.facts.rat = value
+                        end,
+                    },
                 },
             },
             info = {
@@ -248,7 +260,7 @@ function AF:BuildOptionsPanel()
                             "|cFF42BEF5r|r: Whispers an animal fact to your last reply. Or you can start a new whisper and type '|cFFF5A242/af|r |cFF42BEF5r|r' to send them a fact\n\n" ..
                             "|cFF42BEF51-5|r: Use the numbers 1 through 5 to send a bird fact to global channels ('|cFFF5A242/af|r |cFF42BEF51|r' for example)\n\n" ..
                             "You can also use '|cFFF5A242/af|r |cFF42BEF5<animal>|r to send facts about that animal to the default channel.\n" ..
-                            "Animal choices are: |cFF42BEF5cat, dog, frog, bird, raccoon, generic|r\n\n" ..
+                            "Animal choices are: |cFF42BEF5cat, dog, frog, bird, raccoon, rat, generic|r\n\n" ..
                             "Also responds when people say |cFF42BEF5!af|r in chat (party and raid)"
 
                     },
@@ -278,7 +290,8 @@ function AF:OnInitialize()
                 bird = true,
                 cat = true,
                 dog = true,
-                raccoon = true
+                raccoon = true,
+                rat = true
             },
         }
     }

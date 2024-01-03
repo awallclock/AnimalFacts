@@ -44,7 +44,7 @@ aFacts.raccoon = {
     "Raccoons are most closely related to the weasel(Mustelidae) and bear (Ursidae) families. They have keensenses of hearing, sight, and touch, but taste and smellare less well developed.",
     "Raccoons have up to 22 extant subspecies.",
     "Female raccoons give birth after only about 65 days of pregnancy",
-    "Depending on the species, they can grow to a length of around 20-40 in (51-102 cm).",
+    "Depending on the species of, raccoons can grow to a length of around 20-40 in (51-102 cm).",
     "Raccoons typically have communal latrines where several individuals defecate. Raccoon poop often contains undigested seeds and berries that birds and other animals might feast on.",
     "Pygmy raccoons can only be found in Cozumel Island in Mexico. Due to their limited habitat, only around 250-300 individuals are left in the wild, which places it near extinction if left unchecked.",
     "Naturally, raccoons lived in forests near water to support their diet of crayfish and crabs. Woodland forests with lakes and rivers served as the ideal raccoon habitat before the introduction of human-populated cities. ",
