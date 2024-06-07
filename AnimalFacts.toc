@@ -2,13 +2,14 @@
 ## Interface-Classic: 11500
 ## Interface-BCC: 20504
 ## Interface-Wrath: 30403
+## Interface-Cata: 40400
 ## Title: AnimalFacts
 ## Author: Hylly/Hogcrankr@Faerlina
 ## eMail: 
 ## URL: https://discord.gg/AqGTbYMgtK
 ## IconTexture: Interface\Addons\AnimalFacts\Media\Icon64
 ## Notes: Spits out a random animal fact
-## Version: 1.1.0
+## Version: 2.0
 ## X-Curse-Project-ID: 955402
 ## X-Wago-ID: x61zPEK1
 ## OptionalDeps: Ace3
