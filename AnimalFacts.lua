@@ -471,7 +471,7 @@ function AF:SlashCommand(msg)
 	elseif msg == "1" or msg == "2" or msg == "3" or msg == "4" or msg == "5" then
 		SendChatMessage(out, "CHANNEL", nil, msg)
 	elseif msg == "opt" or msg == "options" then
-		Settings.OpenToCategory(addOnName)
+		Settings.OpenToCategory(addonName)
 	elseif msg == "auto" then --this isn't a command a user would type
 		SendChatMessage(out, self.db.profile.defaultAutoChannel)
 	elseif isAnimal then --for doing specific animals to the default channel
