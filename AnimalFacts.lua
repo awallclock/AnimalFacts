@@ -1,17 +1,18 @@
 local addonName, aFacts = ...
 
 -- loading ace3
-local AF =
+local AnimalFacts =
 	LibStub("AceAddon-3.0"):NewAddon("Animal Facts", "AceConsole-3.0", "AceTimer-3.0", "AceComm-3.0", "AceEvent-3.0")
 local AC = LibStub("AceConfig-3.0")
 local ACD = LibStub("AceConfigDialog-3.0")
 _G["aFacts"] = aFacts
 local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
 
-AF.playerGUID = UnitGUID("player")
-AF.playerName = UnitName("player")
-AF._commPrefix = string.upper(addonName)
+AnimalFacts.playerGUID = UnitGUID("player")
+AnimalFacts.playerName = UnitName("player")
+AnimalFacts._commPrefix = string.upper(addonName)
 local IsInRaid, IsInGroup, IsGUIDInGroup, isOnline = IsInRaid, IsInGroup, IsGUIDInGroup, isOnline
+local IsInInstance, IsInGuild = IsInInstance, IsInGuild
 local _G = _G
 
 --yoinked from RankSentinel, sorry :(
@@ -27,11 +28,18 @@ for i = 1, _G.MAX_PARTY_MEMBERS do
 	partyUnitPet[i] = "partypet" .. i
 end
 
-function AF:BuildOptionsPanel()
+function AnimalFacts:BuildOptionsPanel()
+	local channelNames = {}
+	for i = 1, 5, 1 do
+		local _, temp = GetChannelName(i)
+		if temp ~= nil then
+			channelNames[i] = i .. "." .. temp
+		end
+	end
 	local options = {
+		name = "AnimalFacts",
+		handler = AnimalFacts,
 		type = "group",
-		handler = AF,
-		name = "",
 		args = {
 			titleText = {
 				type = "description",
@@ -71,6 +79,11 @@ function AF:BuildOptionsPanel()
 							["RAID_WARNING"] = "Raid Warning",
 							["INSTANCE_CHAT"] = "Instance / Battleground",
 							["OFFICER"] = "Officer",
+							["1"] = channelNames[1],
+							["2"] = channelNames[2],
+							["3"] = channelNames[3],
+							["4"] = channelNames[4],
+							["5"] = channelNames[5],
 						},
 						style = "dropdown",
 						get = function()
@@ -96,7 +109,7 @@ function AF:BuildOptionsPanel()
 						end,
 						set = function(_, value)
 							self.db.profile.toggleTimer = value
-							AF:OutputFactTimer()
+							AnimalFacts:OutputFactTimer()
 						end,
 					},
 					factTimer = {
@@ -112,7 +125,7 @@ function AF:BuildOptionsPanel()
 						end,
 						set = function(_, value)
 							self.db.profile.factTimer = value
-							AF:OutputFactTimer()
+							AnimalFacts:OutputFactTimer()
 						end,
 					},
 					autoChannel = {
@@ -240,7 +253,6 @@ function AF:BuildOptionsPanel()
 						type = "description",
 						fontSize = "medium",
 						name = "A simple dumb addon that allows you to say / yell / raid warning a random animal fact\n"
-							.. "For help or to submit a fact: https://discord.gg/AqGTbYMgtK\n\n"
 							.. "How to use:\n"
 							.. "|cFFF5A242/af|r |cFF42BEF5<command>|r  OR  |cFFF5A242/animalfact|r |cFF42BEF5<command>|r\n\n"
 							.. "List of commands:\n"
@@ -262,17 +274,17 @@ function AF:BuildOptionsPanel()
 		},
 	}
 
-	AF.optionsFrame = ACD:AddToBlizOptions("AnimalFacts", "Animal Facts")
+	AnimalFacts.optionsFrame = ACD:AddToBlizOptions("AnimalFacts", "Animal Facts")
 	AC:RegisterOptionsTable("AnimalFacts", options)
 end
 
 -- things to do on initialize
-function AF:OnInitialize()
+function AnimalFacts:OnInitialize()
 	local defaults = {
 		profile = {
 			defaultChannel = "SAY",
 			timerToggle = false,
-			factTimer = "1",
+			factTimer = "10",
 			defaultAutoChannel = "PARTY",
 			leader = "",
 			pleader = "",
@@ -283,22 +295,23 @@ function AF:OnInitialize()
 				dog = true,
 				raccoon = true,
 				rat = true,
+				frog = true,
 			},
 		},
 	}
-	SLASH_AF1 = "/af"
-	SLASH_AF2 = "/animalfacts"
-	SlashCmdList["AF"] = function(msg)
-		AF:SlashCommand(msg)
+	SLASH_AnimalFacts1 = "/af"
+	SLASH_AnimalFacts2 = "/animalfacts"
+	SlashCmdList["AnimalFacts"] = function(msg)
+		AnimalFacts:SlashCommand(msg)
 	end
 	self.db = LibStub("AceDB-3.0"):New("AnimalFactsDB", defaults, true)
 end
 
-function AF:OnEnable()
+function AnimalFacts:OnEnable()
 	self:RegisterComm(self._commPrefix)
-	AF:BuildOptionsPanel()
+	AnimalFacts:BuildOptionsPanel()
 	self:ScheduleTimer("TimerFeedback", 10)
-	AF:OutputFactTimer()
+	AnimalFacts:OutputFactTimer()
 	--register chat events
 	self:RegisterEvent("CHAT_MSG_RAID", "readChat")
 	self:RegisterEvent("CHAT_MSG_PARTY", "readChat")
@@ -308,11 +321,11 @@ function AF:OnEnable()
 	self:RegisterEvent("GROUP_ROSTER_UPDATE")
 end
 
-function AF:OnDisable()
+function AnimalFacts:OnDisable()
 	self:CancelTimer(self.timer)
 end
 
-function AF:OutputFactTimer()
+function AnimalFacts:OutputFactTimer()
 	self:CancelTimer(self.timer)
 	self.timeInMinutes = self.db.profile.factTimer * 60
 	if self.db.profile.toggleTimer == true then
@@ -320,14 +333,14 @@ function AF:OutputFactTimer()
 	end
 end
 
---register the events for chat messages, (Only for Raid and Party), and read the messages for the command "!bf", and then run the function AF:SlashCommand
-function AF:readChat(event, msg, _, _, _, sender)
-	local msg = string.lower(msg)
+--register the events for chat messages, (Only for Raid and Party), and read the messages for the command "!bf", and then run the function AnimalFacts:SlashCommand
+function AnimalFacts:readChat(event, msg, _, _, _, sender)
+	local msgLower = string.lower(msg)
 	local leader = self.db.profile.leader
 	local channel = event:match("CHAT_MSG_(%w+)")
 	local outChannel = ""
 
-	if msg == "!af" and leader == self.playerName then
+	if msgLower == "!af" and leader == self.playerName then
 		if channel == "RAID" or channel == "RAID_LEADER" then
 			outChannel = "ra"
 		elseif channel == "PARTY" or channel == "PARTY_LEADER" then
@@ -335,17 +348,17 @@ function AF:readChat(event, msg, _, _, _, sender)
 		elseif channel == "GUILD" then
 			outChannel = "g"
 		end
-		AF:SlashCommand(outChannel)
+		AnimalFacts:SlashCommand(outChannel)
 	end
 end
 
-function AF:GROUP_ROSTER_UPDATE()
-	if not AF:IsLeaderInGroup() then
-		AF:BroadcastLead(self.playerName)
+function AnimalFacts:GROUP_ROSTER_UPDATE()
+	if not AnimalFacts:IsLeaderInGroup() then
+		AnimalFacts:BroadcastLead(self.playerName)
 	end
 end
 
-function AF:IsLeaderInGroup()
+function AnimalFacts:IsLeaderInGroup()
 	local leader = self.db.profile.leader
 	if self.playerName == leader then
 		return true
@@ -366,7 +379,7 @@ function AF:IsLeaderInGroup()
 	end
 end
 
-function AF:GetFactAll()
+function AnimalFacts:GetFactAllAll()
 	-- get the database facts that are marked true from self.db.profile.defaults.facts
 	-- pick a random one from that list
 	-- pick a random fact from the randomly picked table
@@ -379,7 +392,7 @@ function AF:GetFactAll()
 		end
 	end
 	if next(trueFacts) == nil then
-		AF:Print("No facts are selected! Please type '/af options' and toggle a fact category ")
+		AnimalFacts:Print("No facts are selected! Please type '/af options' and toggle a fact category ")
 		return
 	else
 		local randomTable = trueFacts[math.random(1, #trueFacts)]
@@ -388,24 +401,24 @@ function AF:GetFactAll()
 	end
 end
 
-function AF:GetFactSpecific(animal)
+function AnimalFacts:GetFactAllSpecific(animal)
 	-- get which table the fact needs to be pulled on based on if the savedVariable is trueFacts
 	local randomFact = aFacts[animal][math.random(1, #aFacts[animal])]
 	return randomFact
 end
 
-function AF:OnCommReceived(prefix, message, distribution, sender)
-	--AF:Print("pre comm receive" .. self.db.profile.leader)
-	if prefix ~= AF._commPrefix or sender == self.playerName then
+function AnimalFacts:OnCommReceived(prefix, message, distribution, sender)
+	--AnimalFacts:Print("pre comm receive" .. self.db.profile.leader)
+	if prefix ~= AnimalFacts._commPrefix or sender == self.playerName then
 		return
 	end
 	if distribution == "PARTY" or distribution == "RAID" then
 		self.db.profile.leader = message
 	end
-	--AF:Print("post comm receive" .. self.db.profile.leader)
+	--AnimalFacts:Print("post comm receive" .. self.db.profile.leader)
 end
 
-function AF:BroadcastLead(playerName)
+function AnimalFacts:BroadcastLead(playerName)
 	local leader = playerName
 	self.db.profile.leader = leader
 
@@ -418,86 +431,141 @@ function AF:BroadcastLead(playerName)
 			commDistro = "PARTY"
 		end
 	end
-	AF:SendCommMessage(AF._commPrefix, leader, commDistro)
-	--AF:Print("Leader is " .. leader)
+	AnimalFacts:SendCommMessage(AF._commPrefix, leader, commDistro)
+	--AnimalFacts:Print("Leader is " .. leader)
 end
 
 -- slash commands and their outputs
-function AF:SlashCommand(msg)
-	local msg = string.lower(msg)
-	local out = AF:GetFactAll()
-	AF:BroadcastLead(self.playerName)
-
-	local table = {
-		["s"] = "SAY",
-		["p"] = "PARTY",
-		["g"] = "GUILD",
-		["ra"] = "RAID",
-		["rw"] = "RAID_WARNING",
-		["y"] = "YELL",
-		["bg"] = "INSTANCE_CHAT",
-		["i"] = "INSTANCE_CHAT",
-		["o"] = "OFFICER",
+function AnimalFacts:SlashCommand(arg)
+	local function findKeyFromValue(table, input)
+		for key, value in pairs(table) do
+			if value == input then
+				return key
+			end
+		end
+	end
+	local chatChannelDict = {
+		["s"] = "SAY", -- requires group
+		["p"] = "PARTY", -- rquires party
+		["g"] = "GUILD", -- requires guild
+		["ra"] = "RAID", -- requires raid
+		["rw"] = "RAID_WARNING", --requires raid and assist
+		["y"] = "YELL", -- requires group
+		["bg"] = "INSTANCE_CHAT", --requires being in instancej
+		["i"] = "INSTANCE_CHAT", --rquires bein in instance
+		["o"] = "OFFICER", --requires guild
+		["r"] = "WHISPER",
+		["w"] = "WHISPER",
+		["t"] = "WHISPER",
+		["1"] = "CHANNEL",
+		["2"] = "CHANNEL",
+		["3"] = "CHANNEL",
+		["4"] = "CHANNEL",
+		["5"] = "CHANNEL",
 	}
-	local isAnimal = false
-	local animals = {}
+
+
+	local msg
+	local out = AnimalFacts:GetFactAll()
+	local default = findKeyFromValue(chatChannelDict, self.db.profile.defaultChannel)
+	local defaultAuto = findKeyFromValue(chatChannelDict, self.db.profile.defaultAutoChannel)
+	if arg == "" or arg == nil then
+		msg = default
+	else
+		msg = string.lower(arg)
+	end
+	AnimalFacts:BroadcastLead(self.playerName)
+
+	-- determines if the incoming arg is one of the valid animals
+	local isMessageAnAnimal = false
 	for key, value in pairs(self.db.profile.facts) do
 		if msg == key then
-			isAnimal = true
+			isMessageAnAnimal = true
 			break
 		end
 	end
 
-	if msg == "r" then
-		SendChatMessage(out, "WHISPER", nil, ChatFrame1EditBox:GetAttribute("tellTarget"))
-	elseif
-		msg == "s"
-		or msg == "p"
-		or msg == "g"
-		or msg == "ra"
-		or msg == "rw"
-		or msg == "y"
-		or msg == "bg"
-		or msg == "i"
-		or msg == "o"
-	then
-		SendChatMessage(out, table[msg])
-	elseif msg == "w" or msg == "t" then
-		if UnitName("target") then
-			SendChatMessage(out, "WHISPER", nil, UnitName("target"))
-		else
-			SendChatMessage(out, self.db.profile.defaultChannel)
+	if msg == "opt" or msg == "options" then
+		Settings.OpenToCategory(addOnName)
+		return
+	elseif msg == "auto" then
+		AnimalFacts:SlashCommand(defaultAuto)
+	elseif not chatChannelDict[msg] then
+		AnimalFacts:Print("Not a valid command. Type '/bf opt' to view available commands.")
+		return
+	end
+
+	if msg == "s" or msg == "y" then
+		SendChatMessage(out, chatChannelDict[msg])
+		return
+	end
+
+	if IsInGroup() then
+		if msg == "p" then
+			SendChatMessage(out, chatChannelDict[msg])
+			return
 		end
+	end
+
+	if IsInRaid() then
+		if msg == "ra" or msg == "rw" then
+			SendChatMessage(out, chatChannelDict[msg])
+			return
+		end
+	end
+
+	if IsInInstance() then
+		if msg == "bg" or msg == "i" then
+			SendChatMessage(out, chatChannelDict[msg])
+			return
+		end
+	end
+
+	if IsInGuild() then
+		if msg == "g" or msg == "o" then
+			SendChatMessage(out, chatChannelDict[msg])
+			return
+		end
+	end
+
+	if msg == "r" and ChatFrame1EditBox:GetAttribute("tellTarget") then
+		SendChatMessage(out, chatChannelDict[msg], nil, ChatFrame1EditBox:GetAttribute("tellTarget"))
+	elseif (msg == "w" or msg == "t") and UnitName("target") then
+		if UnitName("target") then
+			SendChatMessage(out, chatChannelDict[msg], nil, UnitName("target"))
+		else
+			SendChatMessage(out, default)
+		end
+	elseif isMessageAnAnimal then --for doing specific animals to the default channel
+		SendChatMessage(AnimalFacts:GetFactAllSpecific(msg), self.db.profile.defaultChannel)
 	elseif msg == "1" or msg == "2" or msg == "3" or msg == "4" or msg == "5" then
-		SendChatMessage(out, "CHANNEL", nil, msg)
-	elseif msg == "opt" or msg == "options" then
-		Settings.OpenToCategory(addonName)
-	elseif msg == "auto" then --this isn't a command a user would type
-		SendChatMessage(out, self.db.profile.defaultAutoChannel)
-	elseif isAnimal then --for doing specific animals to the default channel
-		SendChatMessage(AF:GetFactSpecific(msg), self.db.profile.defaultChannel)
-	elseif msg ~= "" or msg == "help" then
-		AF:factError()
-	else
-		SendChatMessage(out, self.db.profile.defaultChannel)
+		SendChatMessage(out, chatChannelDict[msg], nil, msg)
+		--elseif msg == "auto" then
+		--	AnimalFacts:SlashCommand(defaultAuto)
+		--	else
+		--		if default == "1" or default == "2" or default == "3" or default == "4" or default == "5" then
+		--			SendChatMessage(out, chatChannelDict[msg], nil, default)
+		--		else
+		--			AnimalFacts:SlashCommand(default)
+		--		end
 	end
 end
 
 -- error message
-function AF:factError()
-	AF:Print("'/af s' sends a fact to /say")
-	AF:Print("'/af p' sends a fact to /party")
-	AF:Print("'/af g' sends a fact to /guild")
-	AF:Print("'/af ra' sends a fact to /raid")
-	AF:Print("'/af rw' sends a fact to /raidwarning")
-	AF:Print("'/af i' sends a fact to /instance")
-	AF:Print("'/af y' sends a fact to /yell")
-	AF:Print("'/af r' sends a fact to the last person whispered")
-	AF:Print("'/af t' sends a fact to your target")
-	AF:Print("'/af <1-5>' sends a fact to global channels")
-	AF:Print("'/af <animal>' sends a specific animal fact ")
+function AnimalFacts:factError()
+	AnimalFacts:Print("'/af s' sends a fact to /say")
+	AnimalFacts:Print("'/af p' sends a fact to /party")
+	AnimalFacts:Print("'/af g' sends a fact to /guild")
+	AnimalFacts:Print("'/af ra' sends a fact to /raid")
+	AnimalFacts:Print("'/af rw' sends a fact to /raidwarning")
+	AnimalFacts:Print("'/af i' sends a fact to /instance")
+	AnimalFacts:Print("'/af y' sends a fact to /yell")
+	AnimalFacts:Print("'/af r' sends a fact to the last person whispered")
+	AnimalFacts:Print("'/af t' sends a fact to your target")
+	AnimalFacts:Print("'/af <1-5>' sends a fact to global channels")
+	AnimalFacts:Print("'/af <animal>' sends a specific animal fact ")
 end
 
-function AF:TimerFeedback()
+function AnimalFacts:TimerFeedback()
 	self:Print("Type '/af help' to view available channels or '/af options' to view the options panel")
 end
