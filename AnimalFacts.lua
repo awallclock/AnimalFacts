@@ -1,4 +1,4 @@
-local addonName, aFacts = ...
+local addOnName, aFacts = ...
 
 -- loading ace3
 local AnimalFacts =
@@ -10,7 +10,7 @@ local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetad
 
 AnimalFacts.playerGUID = UnitGUID("player")
 AnimalFacts.playerName = UnitName("player")
-AnimalFacts._commPrefix = string.upper(addonName)
+AnimalFacts._commPrefix = string.upper(addOnName)
 local IsInRaid, IsInGroup, IsGUIDInGroup, isOnline = IsInRaid, IsInGroup, IsGUIDInGroup, isOnline
 local IsInInstance, IsInGuild = IsInInstance, IsInGuild
 local _G = _G
@@ -51,7 +51,7 @@ function AnimalFacts:BuildOptionsPanel()
 				type = "description",
 				fontSize = "medium",
 				order = 2,
-				name = "|TInterface\\AddOns\\AnimalFacts\\Media\\Icon64:64:64:0:20|t |cFFFFFFFFMade with love by  |cFFC41E3AHylly/Hogcrankr-Faerlina|r \n |cFFFFFFFFhttps://discord.gg/AqGTbYMgtK",
+				name = "|TInterface\\AddOns\\AnimalFacts\\Media\\Icon64:64:64:0:20|t |cFFFFFFFFMade with love by  |cFFC41E3AHylly/Hogcrankr-Faerlina|r",
 			},
 
 			main = {
@@ -274,8 +274,8 @@ function AnimalFacts:BuildOptionsPanel()
 		},
 	}
 
-	AnimalFacts.optionsFrame = ACD:AddToBlizOptions("AnimalFacts", "Animal Facts")
-	AC:RegisterOptionsTable("AnimalFacts", options)
+	AnimalFacts.optionsFrame = ACD:AddToBlizOptions("AnimalFacts_options", "AnimalFacts")
+	AC:RegisterOptionsTable("AnimalFacts_options", options)
 end
 
 -- things to do on initialize
@@ -379,7 +379,7 @@ function AnimalFacts:IsLeaderInGroup()
 	end
 end
 
-function AnimalFacts:GetFactAllAll()
+function AnimalFacts:GetFactAll()
 	-- get the database facts that are marked true from self.db.profile.defaults.facts
 	-- pick a random one from that list
 	-- pick a random fact from the randomly picked table
@@ -431,7 +431,7 @@ function AnimalFacts:BroadcastLead(playerName)
 			commDistro = "PARTY"
 		end
 	end
-	AnimalFacts:SendCommMessage(AF._commPrefix, leader, commDistro)
+	AnimalFacts:SendCommMessage(AnimalFacts._commPrefix, leader, commDistro)
 	--AnimalFacts:Print("Leader is " .. leader)
 end
 
