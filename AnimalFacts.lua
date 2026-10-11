@@ -106,6 +106,8 @@ function AnimalFacts:readChat(event, msg, _, _, _, sender)
 			outChannel = "p"
 		elseif channel == "GUILD" then
 			outChannel = "g"
+		elseif channel == "INSTANCE_CHAT" then
+			outChannel = "i"
 		end
 		AnimalFacts:SlashCommand(outChannel)
 	end
@@ -317,11 +319,11 @@ function AnimalFacts:SlashCommand(arg)
 	end
 
 	if msg == "opt" or msg == "options" then
-		if isInCombat then
+		if IsInCombat then
 			AnimalFacts:Print("You cannot open the options panel while in combat.")
 			return
 		end
-		BirdFacts:OpenSettings()
+		AnimalFacts:OpenSettings()
 		return
 	elseif msg == "auto" then
 		if not IsInCombat then

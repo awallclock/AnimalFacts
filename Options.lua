@@ -253,3 +253,15 @@ local options = {
 
 AnimalFacts.optionsFrame, AnimalFacts.categoryID = ACD:AddToBlizOptions(addOnName, "AnimalFacts")
 AC:RegisterOptionsTable("AnimalFacts", options)
+
+
+function AnimalFacts:OpenSettings()
+	if C_SettingsUtil and C_SettingsUtil.OpenSettingsPanel then
+		C_SettingsUtil.OpenSettingsPanel(AnimalFacts.categoryID)
+	elseif Settings then
+		Settings.OpenToCategory(AnimalFacts.categoryID)
+	elseif InterfaceOptionsFrame_OpenToCategory then
+		InterfaceOptionsFrame_OpenToCategory("AnimalFacts")
+	end
+end
+
