@@ -247,5 +247,5 @@
 		},
 	}
 
-	AnimalFacts.optionsFrame = ACD:AddToBlizOptions("AnimalFacts_options", "AnimalFacts")
-	AC:RegisterOptionsTable("AnimalFacts_options", options)
+	AnimalFacts.optionsFrame, AnimalFacts.categoryID = ACD:AddToBlizOptions(addOnName, "AnimalFacts")
+	AC:RegisterOptionsTable("AnimalFacts", options)
