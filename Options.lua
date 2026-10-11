@@ -3,6 +3,7 @@ local _G = _G
 _G["aFacts"] = aFacts
 local self = AnimalFacts
 
+
 local channelNames = {}
 for i = 1, 5, 1 do
 	local _, temp = GetChannelName(i)
@@ -26,7 +27,7 @@ local options = {
 			fontSize = "medium",
 			order = 2,
 			name =
-			"|TInterface\\AddOns\\AnimalFacts\\Media\\Icon64:64:64:0:20|t |cFFFFFFFFMade with love by  |cFFC41E3AHylly/Hogcrankr-Faerlina|r",
+			"|TInterface\\AddOns\\AnimalFacts\\Media\\Icon64:64:64:0:20|t |cFFFFFFFFMade with love by  |cFFC41E3AHylly|r",
 		},
 
 		main = {
