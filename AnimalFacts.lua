@@ -91,8 +91,7 @@ end
 
 --register the events for chat messages, (Only for Raid and Party), and read the messages for the command "!bf", and then run the function AnimalFacts:SlashCommand
 function AnimalFacts:readChat(event, msg, _, _, _, sender)
-	if IsInCombat
-	 then
+	if IsInCombat then
 		return
 	end
 	local msgLower = string.lower(msg)
@@ -206,10 +205,6 @@ function AnimalFacts:DuplicateChecker(index)
 	return false
 end
 
-
-
-
-
 function AnimalFacts:GetFactAll()
 	-- get the database facts that are marked true from self.db.profile.defaults.facts
 	-- pick a random one from that list
@@ -276,15 +271,15 @@ function AnimalFacts:SlashCommand(arg)
 		end
 	end
 	local chatChannelDict = {
-		["s"] = "SAY", -- requires group
-		["p"] = "PARTY", -- rquires party
-		["g"] = "GUILD", -- requires guild
-		["ra"] = "RAID", -- requires raid
+		["s"] = "SAY",      -- requires group
+		["p"] = "PARTY",    -- rquires party
+		["g"] = "GUILD",    -- requires guild
+		["ra"] = "RAID",    -- requires raid
 		["rw"] = "RAID_WARNING", --requires raid and assist
-		["y"] = "YELL", -- requires group
+		["y"] = "YELL",     -- requires group
 		["bg"] = "INSTANCE_CHAT", --requires being in instancej
 		["i"] = "INSTANCE_CHAT", --rquires bein in instance
-		["o"] = "OFFICER", --requires guild
+		["o"] = "OFFICER",  --requires guild
 		["r"] = "WHISPER",
 		["w"] = "WHISPER",
 		["t"] = "WHISPER",
