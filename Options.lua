@@ -18,7 +18,7 @@ local options = {
 			type = "description",
 			fontSize = "large",
 			order = 1,
-			name = "              |cFF36F7BC" .. "Animal Facts: v" .. GetAddOnMetadata("AnimalFacts", "Version"),
+			name = "              |cFF36F7BC" .. "Animal Facts: v" .. AnimalFacts.GetAddOnMetadata("AnimalFacts", "Version"),
 		},
 		authorText = {
 			type = "description",
