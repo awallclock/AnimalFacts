@@ -1,5 +1,5 @@
 local addOnName, aFacts = ...
-
+local _G = _G
 _G["aFacts"] = aFacts
 
 local channelNames = {}
