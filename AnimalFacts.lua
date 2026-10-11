@@ -1,5 +1,6 @@
 local addOnName, aFacts = ...
 
+local _G = _G
 -- loading ace3
 AnimalFacts =
 	LibStub("AceAddon-3.0"):NewAddon("Animal Facts", "AceConsole-3.0", "AceTimer-3.0", "AceComm-3.0", "AceEvent-3.0")
@@ -15,7 +16,6 @@ AnimalFacts._commPrefix = string.upper(addOnName)
 local IsInRaid, IsInGroup, IsGUIDInGroup, isOnline = IsInRaid, IsInGroup, IsGUIDInGroup, isOnline
 local IsInInstance, IsInGuild = IsInInstance, IsInGuild
 local IsInCombat = UnitAffectingCombat("player")
-local _G = _G
 
 --yoinked from RankSentinel, sorry :(
 -- cache relevant unitids once so we don't do concat every call
