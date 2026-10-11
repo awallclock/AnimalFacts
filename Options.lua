@@ -135,7 +135,7 @@ local options = {
 				},
 				genericToggle = {
 					type = "toggle",
-					name = "Generic (" .. #aFacts.generic .. " facts)",
+					name = "Generic (" .. #( _G.aFacts and _G.aFacts.generic or {} ) .. " facts)",
 					order = 3.1,
 					desc = "Has a generic list of facts for many different types of animals",
 					get = function()

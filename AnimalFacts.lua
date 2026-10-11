@@ -330,7 +330,7 @@ function AnimalFacts:SlashCommand(arg)
 			AnimalFacts:SlashCommand(defaultAuto)
 		end
 	elseif not chatChannelDict[msg] then
-		AnimalFacts:Print("Not a valid command. Type '/bf opt' to view available commands.")
+		AnimalFacts:Print("Not a valid command. Type '/af opt' to view available commands.")
 		return
 	end
 
