@@ -147,7 +147,7 @@ local options = {
 				},
 				catToggle = {
 					type = "toggle",
-					name = "Cat (" .. #aFacts.cat .. " facts)",
+					name = "Cat (" .. #(aFacts.cat or {}) .. " facts)",
 					order = 3.2,
 					desc = "Turns off cat facts from the overall /af command",
 					get = function()
@@ -159,7 +159,7 @@ local options = {
 				},
 				dogToggle = {
 					type = "toggle",
-					name = "Dog (" .. #aFacts.dog .. " facts)",
+					name = "Dog (" .. #(aFacts.dog or {}) .. " facts)",
 					order = 3.3,
 					desc = "Turns off dog facts from the overall /af command",
 					get = function()
@@ -171,7 +171,7 @@ local options = {
 				},
 				birdToggle = {
 					type = "toggle",
-					name = "Bird (" .. #aFacts.bird .. " facts)",
+					name = "Bird (" .. #(aFacts.bird or {}) .. " facts)",
 					order = 3.4,
 					desc = "Turns off bird facts from the overall /af command",
 					get = function()
@@ -183,7 +183,7 @@ local options = {
 				},
 				frogToggle = {
 					type = "toggle",
-					name = "Frog (" .. #aFacts.frog .. " facts)",
+					name = "Frog (" .. #(aFacts.frog or {}) .. " facts)",
 					order = 3.5,
 					desc = "Turns off frog facts from the overall /af command",
 					get = function()
@@ -195,7 +195,7 @@ local options = {
 				},
 				raccoonToggle = {
 					type = "toggle",
-					name = "Raccoon (" .. #aFacts.raccoon .. " facts)",
+					name = "Raccoon (" .. #(aFacts.raccoon or {}) .. " facts)",
 					order = 3.6,
 					desc = "Turns off raccoon facts from the overall /af command",
 					get = function()
@@ -207,7 +207,7 @@ local options = {
 				},
 				ratToggle = {
 					type = "toggle",
-					name = "Rat (" .. #aFacts.rat .. " facts)",
+					name = "Rat (" .. #(aFacts.rat or {}) .. " facts)",
 					order = 3.7,
 					desc = "Turns off rat facts from the overall /af command",
 					get = function()
