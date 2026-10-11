@@ -11,8 +11,10 @@ local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetad
 AnimalFacts.playerGUID = UnitGUID("player")
 AnimalFacts.playerName = UnitName("player")
 AnimalFacts._commPrefix = string.upper(addOnName)
+
 local IsInRaid, IsInGroup, IsGUIDInGroup, isOnline = IsInRaid, IsInGroup, IsGUIDInGroup, isOnline
 local IsInInstance, IsInGuild = IsInInstance, IsInGuild
+local IsInCombat = UnitAffectingCombat("player")
 local _G = _G
 
 --yoinked from RankSentinel, sorry :(
@@ -28,255 +30,6 @@ for i = 1, _G.MAX_PARTY_MEMBERS do
 	partyUnitPet[i] = "partypet" .. i
 end
 
-function AnimalFacts:BuildOptionsPanel()
-	local channelNames = {}
-	for i = 1, 5, 1 do
-		local _, temp = GetChannelName(i)
-		if temp ~= nil then
-			channelNames[i] = i .. "." .. temp
-		end
-	end
-	local options = {
-		name = "AnimalFacts",
-		handler = AnimalFacts,
-		type = "group",
-		args = {
-			titleText = {
-				type = "description",
-				fontSize = "large",
-				order = 1,
-				name = "              |cFF36F7BC" .. "Animal Facts: v" .. GetAddOnMetadata("AnimalFacts", "Version"),
-			},
-			authorText = {
-				type = "description",
-				fontSize = "medium",
-				order = 2,
-				name = "|TInterface\\AddOns\\AnimalFacts\\Media\\Icon64:64:64:0:20|t |cFFFFFFFFMade with love by  |cFFC41E3AHylly/Hogcrankr-Faerlina|r",
-			},
-
-			main = {
-				name = "General Options",
-				type = "group",
-				order = 1,
-				args = {
-					generalHeader = {
-						name = "General",
-						type = "header",
-						width = "full",
-						order = 1.0,
-					},
-					channel = {
-						type = "select",
-						name = "Default channel",
-						desc = "The default animal fact channel",
-						order = 1.1,
-						values = {
-							["SAY"] = "Say",
-							["PARTY"] = "Party",
-							["RAID"] = "Raid",
-							["GUILD"] = "Guild",
-							["YELL"] = "Yell",
-							["RAID_WARNING"] = "Raid Warning",
-							["INSTANCE_CHAT"] = "Instance / Battleground",
-							["OFFICER"] = "Officer",
-							["1"] = channelNames[1],
-							["2"] = channelNames[2],
-							["3"] = channelNames[3],
-							["4"] = channelNames[4],
-							["5"] = channelNames[5],
-						},
-						style = "dropdown",
-						get = function()
-							return self.db.profile.defaultChannel
-						end,
-						set = function(_, value)
-							self.db.profile.defaultChannel = value
-						end,
-					},
-					selfTimerHeader = {
-						name = "Auto Fact Timer",
-						type = "header",
-						width = "full",
-						order = 2.0,
-					},
-					factTimerToggle = {
-						type = "toggle",
-						name = "Toggle Auto-Facts",
-						order = 2.1,
-						desc = "Turns on/off the Auto-Fact Timer.",
-						get = function()
-							return self.db.profile.toggleTimer
-						end,
-						set = function(_, value)
-							self.db.profile.toggleTimer = value
-							AnimalFacts:OutputFactTimer()
-						end,
-					},
-					factTimer = {
-						type = "range",
-						name = "Auto-Fact Timer",
-						order = 2.2,
-						desc = "Set the time in minutes to automatically output an animal fact.",
-						min = 1,
-						max = 60,
-						step = 1,
-						get = function()
-							return self.db.profile.factTimer
-						end,
-						set = function(_, value)
-							self.db.profile.factTimer = value
-							AnimalFacts:OutputFactTimer()
-						end,
-					},
-					autoChannel = {
-						type = "select",
-						name = "Auto-Fact channel",
-						desc = "The output channel for the Auto-Fact timer. |cF0FF0000NOTE:|r Say and Yell ONLY work while inside an instance",
-						order = 2.3,
-						values = {
-							["SAY"] = "Say",
-							["PARTY"] = "Party",
-							["RAID"] = "Raid",
-							["GUILD"] = "Guild",
-							["YELL"] = "Yell",
-							["RAID_WARNING"] = "Raid Warning",
-							["INSTANCE_CHAT"] = "Instance / Battleground",
-							["OFFICER"] = "Officer",
-						},
-						style = "dropdown",
-						get = function()
-							return self.db.profile.defaultAutoChannel
-						end,
-						set = function(_, value)
-							self.db.profile.defaultAutoChannel = value
-						end,
-					},
-					animalTypes = {
-						name = "Animal Categories",
-						desc = "Toggle which facts you want to see",
-						type = "header",
-						width = "full",
-						order = 3.0,
-					},
-					genericToggle = {
-						type = "toggle",
-						name = "Generic (" .. #aFacts.generic .. " facts)",
-						order = 3.1,
-						desc = "Has a generic list of facts for many different types of animals",
-						get = function()
-							return self.db.profile.facts.generic
-						end,
-						set = function(_, value)
-							self.db.profile.facts.generic = value
-						end,
-					},
-					catToggle = {
-						type = "toggle",
-						name = "Cat (" .. #aFacts.cat .. " facts)",
-						order = 3.2,
-						desc = "Turns off cat facts from the overall /af command",
-						get = function()
-							return self.db.profile.facts.cat
-						end,
-						set = function(_, value)
-							self.db.profile.facts.cat = value
-						end,
-					},
-					dogToggle = {
-						type = "toggle",
-						name = "Dog (" .. #aFacts.dog .. " facts)",
-						order = 3.3,
-						desc = "Turns off dog facts from the overall /af command",
-						get = function()
-							return self.db.profile.facts.dog
-						end,
-						set = function(_, value)
-							self.db.profile.facts.dog = value
-						end,
-					},
-					birdToggle = {
-						type = "toggle",
-						name = "Bird (" .. #aFacts.bird .. " facts)",
-						order = 3.4,
-						desc = "Turns off bird facts from the overall /af command",
-						get = function()
-							return self.db.profile.facts.bird
-						end,
-						set = function(_, value)
-							self.db.profile.facts.bird = value
-						end,
-					},
-					frogToggle = {
-						type = "toggle",
-						name = "Frog (" .. #aFacts.frog .. " facts)",
-						order = 3.5,
-						desc = "Turns off frog facts from the overall /af command",
-						get = function()
-							return self.db.profile.facts.frog
-						end,
-						set = function(_, value)
-							self.db.profile.facts.frog = value
-						end,
-					},
-					raccoonToggle = {
-						type = "toggle",
-						name = "Raccoon (" .. #aFacts.raccoon .. " facts)",
-						order = 3.6,
-						desc = "Turns off raccoon facts from the overall /af command",
-						get = function()
-							return self.db.profile.facts.raccoon
-						end,
-						set = function(_, value)
-							self.db.profile.facts.raccoon = value
-						end,
-					},
-					ratToggle = {
-						type = "toggle",
-						name = "Rat (" .. #aFacts.rat .. " facts)",
-						order = 3.7,
-						desc = "Turns off rat facts from the overall /af command",
-						get = function()
-							return self.db.profile.facts.rat
-						end,
-						set = function(_, value)
-							self.db.profile.facts.rat = value
-						end,
-					},
-				},
-			},
-			info = {
-				name = "Information",
-				type = "group",
-				order = 2,
-				args = {
-					infoText = {
-						type = "description",
-						fontSize = "medium",
-						name = "A simple dumb addon that allows you to say / yell / raid warning a random animal fact\n"
-							.. "How to use:\n"
-							.. "|cFFF5A242/af|r |cFF42BEF5<command>|r  OR  |cFFF5A242/animalfact|r |cFF42BEF5<command>|r\n\n"
-							.. "List of commands:\n"
-							.. "|cFF42BEF5s|r: Sends fact to the /say channel.\n\n"
-							.. "|cFF42BEF5p|r: Sends fact to the /party channel.\n\n"
-							.. "|cFF42BEF5ra|r: Sends fact to the /raid channel.\n\n"
-							.. "|cFF42BEF5rw|r: Sends fact to the /raidwarning channel.\n\n"
-							.. "|cFF42BEF5g|r: Sends fact to the /guild channel.\n\n"
-							.. "|cFF42BEF5i|r or |cFF42BEF5bg|r: Sends an animal fact to /instance or /bg channel.\n\n"
-							.. "|cFF42BEF5w|r or |cFF42BEF5t|r: Whispers an animal fact to your current target\n\n"
-							.. "|cFF42BEF5r|r: Whispers an animal fact to your last reply. Or you can start a new whisper and type '|cFFF5A242/af|r |cFF42BEF5r|r' to send them a fact\n\n"
-							.. "|cFF42BEF51-5|r: Use the numbers 1 through 5 to send a bird fact to global channels ('|cFFF5A242/af|r |cFF42BEF51|r' for example)\n\n"
-							.. "You can also use '|cFFF5A242/af|r |cFF42BEF5<animal>|r to send facts about that animal to the default channel.\n"
-							.. "Animal choices are: |cFF42BEF5cat, dog, frog, bird, raccoon, rat, generic|r\n\n"
-							.. "Also responds when people say |cFF42BEF5!af|r in chat (party and raid)",
-					},
-				},
-			},
-		},
-	}
-
-	AnimalFacts.optionsFrame = ACD:AddToBlizOptions("AnimalFacts_options", "AnimalFacts")
-	AC:RegisterOptionsTable("AnimalFacts_options", options)
-end
 
 -- things to do on initialize
 function AnimalFacts:OnInitialize()
@@ -288,6 +41,7 @@ function AnimalFacts:OnInitialize()
 			defaultAutoChannel = "PARTY",
 			leader = "",
 			pleader = "",
+			maxFactRepeat = 20,
 			facts = {
 				generic = true,
 				bird = true,
@@ -309,7 +63,6 @@ end
 
 function AnimalFacts:OnEnable()
 	self:RegisterComm(self._commPrefix)
-	AnimalFacts:BuildOptionsPanel()
 	self:ScheduleTimer("TimerFeedback", 10)
 	AnimalFacts:OutputFactTimer()
 	--register chat events
@@ -318,6 +71,7 @@ function AnimalFacts:OnEnable()
 	self:RegisterEvent("CHAT_MSG_PARTY_LEADER", "readChat")
 	self:RegisterEvent("CHAT_MSG_RAID_LEADER", "readChat")
 	self:RegisterEvent("CHAT_MSG_GUILD", "readChat")
+	self:RegisterEvent("CHAT_MSG_INSTANCE_CHAT", "readChat")
 	self:RegisterEvent("GROUP_ROSTER_UPDATE")
 end
 
@@ -326,7 +80,9 @@ function AnimalFacts:OnDisable()
 end
 
 function AnimalFacts:OutputFactTimer()
-	self:CancelTimer(self.timer)
+	if self.timer then
+		self:CancelTimer(self.timer)
+	end
 	self.timeInMinutes = self.db.profile.factTimer * 60
 	if self.db.profile.toggleTimer == true then
 		self.timer = self:ScheduleRepeatingTimer("SlashCommand", self.timeInMinutes, "auto", "SlashCommand")
@@ -335,6 +91,7 @@ end
 
 --register the events for chat messages, (Only for Raid and Party), and read the messages for the command "!bf", and then run the function AnimalFacts:SlashCommand
 function AnimalFacts:readChat(event, msg, _, _, _, sender)
+	if IsInC
 	local msgLower = string.lower(msg)
 	local leader = self.db.profile.leader
 	local channel = event:match("CHAT_MSG_(%w+)")
@@ -378,6 +135,77 @@ function AnimalFacts:IsLeaderInGroup()
 		end
 	end
 end
+
+--Duplicate checker for the auto fact timer, so that the same fact is not repeated within a certain number of facts
+local List = {}
+function List.new()
+	return { first = 0, last = -1 }
+end
+
+function List.pushleft(list, value)
+	local first = list.first - 1
+	list.first = first
+	list[first] = value
+end
+
+function List.pushright(list, value)
+	local last = list.last + 1
+	list.last = last
+	list[last] = value
+end
+
+function List.popleft(list)
+	local first = list.first
+	if first > list.last then
+		error("list is empty")
+	end
+	local value = list[first]
+	list[first] = nil -- to allow garbage collection
+	list.first = first + 1
+	return value
+end
+
+function List.popright(list)
+	local last = list.last
+	if list.first > last then
+		error("list is empty")
+	end
+	local value = list[last]
+	list[last] = nil -- to allow garbage collection
+	list.last = last - 1
+	return value
+end
+
+function AnimalFacts:DuplicateChecker(index)
+	--returning true means there is a duplicate
+	--returning false means there was not a duplicate
+	local firstIndex = RecentlyUsedFacts["first"]
+	local lastIndex = RecentlyUsedFacts["last"]
+	local currentQueueLength = lastIndex - firstIndex
+	local maxQueueLength = self.db.profile.maxFactRepeat
+	if lastIndex < firstIndex then
+		List.pushright(RecentlyUsedFacts, index)
+		return false
+	end
+	while currentQueueLength > maxQueueLength do
+		firstIndex = RecentlyUsedFacts["first"]
+		lastIndex = RecentlyUsedFacts["last"]
+		currentQueueLength = lastIndex - firstIndex
+		List.popleft(RecentlyUsedFacts)
+	end
+
+	for i = firstIndex, lastIndex, 1 do
+		if index == RecentlyUsedFacts[i] then --duplicate found
+			return true
+		end
+	end
+	List.pushright(RecentlyUsedFacts, index)
+	return false
+end
+
+
+
+
 
 function AnimalFacts:GetFactAll()
 	-- get the database facts that are marked true from self.db.profile.defaults.facts
@@ -485,11 +313,22 @@ function AnimalFacts:SlashCommand(arg)
 		end
 	end
 
+	if msg == "test" then
+		AnimalFacts:Print(out)
+		return
+	end
+
 	if msg == "opt" or msg == "options" then
-		Settings.OpenToCategory(addOnName)
+		if isInCombat then
+			AnimalFacts:Print("You cannot open the options panel while in combat.")
+			return
+		end
+		BirdFacts:OpenSettings()
 		return
 	elseif msg == "auto" then
-		AnimalFacts:SlashCommand(defaultAuto)
+		if not IsInCombat then
+			AnimalFacts:SlashCommand(defaultAuto)
+		end
 	elseif not chatChannelDict[msg] then
 		AnimalFacts:Print("Not a valid command. Type '/bf opt' to view available commands.")
 		return
