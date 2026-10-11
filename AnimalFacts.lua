@@ -1,12 +1,12 @@
 local addOnName, aFacts = ...
 
 -- loading ace3
-local AnimalFacts =
+AnimalFacts =
 	LibStub("AceAddon-3.0"):NewAddon("Animal Facts", "AceConsole-3.0", "AceTimer-3.0", "AceComm-3.0", "AceEvent-3.0")
-local AC = LibStub("AceConfig-3.0")
-local ACD = LibStub("AceConfigDialog-3.0")
+AC = LibStub("AceConfig-3.0")
+ACD = LibStub("AceConfigDialog-3.0")
 _G["aFacts"] = aFacts
-local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
+AnimalFacts.GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
 
 AnimalFacts.playerGUID = UnitGUID("player")
 AnimalFacts.playerName = UnitName("player")
