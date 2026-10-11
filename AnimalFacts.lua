@@ -91,7 +91,10 @@ end
 
 --register the events for chat messages, (Only for Raid and Party), and read the messages for the command "!bf", and then run the function AnimalFacts:SlashCommand
 function AnimalFacts:readChat(event, msg, _, _, _, sender)
-	if IsInC
+	if IsInCombat
+	 then
+		return
+	end
 	local msgLower = string.lower(msg)
 	local leader = self.db.profile.leader
 	local channel = event:match("CHAT_MSG_(%w+)")
