@@ -1,6 +1,7 @@
 local addOnName, aFacts = ...
 local _G = _G
 _G["aFacts"] = aFacts
+local self = AnimalFacts
 
 local channelNames = {}
 for i = 1, 5, 1 do
