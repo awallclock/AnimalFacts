@@ -22,7 +22,6 @@ Libs\AceTimer-3.0\AceTimer-3.0.xml
 Libs\AceComm-3.0\AceComm-3.0.xml
 
 AnimalFacts.lua
-Options.lua
 Facts\Bird.lua
 Facts\Cat.lua
 Facts\Dog.lua
@@ -30,3 +29,4 @@ Facts\Frog.lua
 Facts\Generic.lua
 Facts\Raccoon.lua
 Facts\Rat.lua
+Options.lua
